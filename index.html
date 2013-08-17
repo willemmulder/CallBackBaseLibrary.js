@@ -1,6 +1,6 @@
  <html>
 <head>
-	<script src='js/CallBackLibrary.js'></script>
+	<script src='js/CallBackBaseLibrary.js'></script>
 	<script>
 
 		// ***********
@@ -17,7 +17,7 @@
 				})
 			}
 
-			// Public return object
+			// Public return object. Should not be instance-specific, since they are shared across all instances
 			var publics = {
 				b : function() {
 					setCallback();
@@ -47,9 +47,9 @@
 
 			// Set public properties while keeping the prototype chain intact
 			// This is done by creating an intermediate object that holds the public properties
-			return this.setPublicProperties(Library, publics);
+			return this.returnPublicProperties(Library, publics);
 		}
-		Library.prototype = new CallBackLibrary();
+		Library.prototype = new CallBackBaseLibrary();
 
 		var inst = new Library();
 		console.log(inst);

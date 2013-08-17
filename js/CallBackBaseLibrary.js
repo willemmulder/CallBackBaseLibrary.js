@@ -1,9 +1,9 @@
 // ***********
-// CALLBACK LIBRARY
+// CALLBACK BASE LIBRARY
 // @author Willem Mulder
 // ***********
 
-var CallBackLibrary = (function() {
+var CallBackBaseLibrary = (function() {
 
 	var callbacks = {};
 
@@ -43,7 +43,7 @@ var CallBackLibrary = (function() {
 			}
 		},
 
-		setPublicProperties : function(lib, properties) {
+		returnPublicProperties : function(lib, properties) {
 			if (!lib.changed) {
 				function Intermediate() {
 					for(var index in properties) {
