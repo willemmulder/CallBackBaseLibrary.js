@@ -1,0 +1,71 @@
+ <html>
+<head>
+	<script src='js/CallBackLibrary.js'></script>
+	<script>
+
+		// ***********
+		// LIBRARY
+		// ***********
+		function Library() {
+
+			var self = this;
+
+			// Private functions
+			function setCallback() {
+				self.on("test1", function() {
+					alert('works1');
+				})
+			}
+
+			// Public return object
+			var publics = {
+				b : function() {
+					setCallback();
+				}
+			}
+
+			// Now, we cannot simply return the publics, because that would return an object that is not of instance of Library (having our desired prototype) but a simple plain object that has no prototype whatsover. Thus, we need something that sets our publics on a Library instance. Let's see the possibilities.
+
+			// Set publics directly on the object via .this
+			// Drawback: the publics are set on every object instance, which is a bit expensive
+			// We rather want them available through a prototype
+			/*
+			for(var index in publics) {
+				this[index] = publics[index];
+			}
+			*/
+
+			// Set publics directly on prototype
+			// Drawback: we manipulate the prototype directly, so that any object that uses the prototype now suddenly has our functions added
+			/*
+			for(var index in publics) {
+				if (!Library.prototype[index]) {
+					Library.prototype[index] = publics[index];
+				}
+			}
+			*/
+
+			// Set public properties while keeping the prototype chain intact
+			// This is done by creating an intermediate object that holds the public properties
+			return this.setPublicProperties(Library, publics);
+		}
+		Library.prototype = new CallBackLibrary();
+
+		var inst = new Library();
+		console.log(inst);
+
+		// Set callback via facade
+		inst.b();
+		inst.trigger("test1");
+
+		// Set callback via on function
+		inst.on("test2", function() {
+			alert("works2");
+		});
+		inst.trigger("test2");
+
+	</script>
+	<body>
+		_wm
+	</body>
+</html>
